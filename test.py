@@ -18,3 +18,6 @@ print('pandas: {}'.format(pandas.__version__))
 # scikit-learn
 import sklearn
 print('sklearn: {}'.format(sklearn.__version__))
+# xgboost
+import xgboost
+print('xgboost: {}'.format(xgboost.__version__))
