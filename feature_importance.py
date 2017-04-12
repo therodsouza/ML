@@ -4,7 +4,7 @@ from xgboost import XGBClassifier
 from xgboost import plot_importance
 from matplotlib import pyplot
 # load data
-dataset = loadtxt('pima-indians-diabetes.data', delimiter=",")
+dataset = loadtxt('titanic_data.csv', delimiter=",")
 # split data into X and y
 X = dataset[:,0:8]
 y = dataset[:,8]
