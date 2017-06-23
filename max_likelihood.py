@@ -19,13 +19,21 @@ Hello Peter, whats happening? Ummm, I'm gonna need you to go ahead and come in t
 #   Just use .split() to split the sample_memo text into words separated by spaces.
 
 def next_word_probability(sampletext, word):
-    words = sampletext.lower().split(word, 1)[1].split()
-    dict = {}
+    words = sampletext.lower().split()
+    dictionary = {}
+
+    index = 0
 
     for item in words:
-        dict[item] = words.count(item)
+        if item == word:
+            key = words[index + 1]
+            if key in dictionary:
+                dictionary[key] += 1
+            else:
+                dictionary[key] = 1
+        index += 1
 
-    return dict
+    return dictionary
 
 
 def test_run():
