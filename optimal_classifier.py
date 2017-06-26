@@ -75,14 +75,14 @@ def LaterWords(sample, word, distance):
     # TODO: Repeat the above process--for each distance beyond 1, evaluate the words that
     # might come after each word, and combine them weighting by relative probability
     # into an estimate of what might appear next.
-    probability = later_word_probability(sampletext=sample, probability_dict=probability)
+    for i in range(1, distance):
+        probability = later_word_probability(sampletext=sample, probability_dict=probability)
 
     return max(probability, key=probability.get)
 
 
 def test_run():
-    print LaterWords(sample_memo, "ahead", 2)
-    print LaterWords(sample_memo, "and", 2)
+    print LaterWords(sample_memo, "you", 2)
 
 
 if __name__ == '__main__':
