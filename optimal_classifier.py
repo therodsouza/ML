@@ -78,11 +78,17 @@ def LaterWords(sample, word, distance):
     for i in range(1, distance):
         probability = later_word_probability(sampletext=sample, probability_dict=probability)
 
+    print probability
     return max(probability, key=probability.get)
 
 
 def test_run():
-    print LaterWords(sample_memo, "you", 2)
+    print "My guess is that two blanks after 'ahead' will be: " + LaterWords(sample_memo, "ahead", 2) +\
+          ". The best guess is 'come'"
+    print "My guess is that two blanks after 'and' will be: " + LaterWords(sample_memo, "and", 2) + \
+          ". The best guess is 'in'"
+
+    print "You guessed '" + LaterWords(sample_memo, "you", 2) + "' after 'you', where we guessed 'go'"
 
 
 if __name__ == '__main__':
