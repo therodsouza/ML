@@ -29,6 +29,7 @@ words_to_guess = ["ahead", "could"]
 
 def next_word_probability(sampletext, word):
     words = sampletext.lower().split()
+    frequencies = {}
     probabilities = {}
 
     index = 0
@@ -36,16 +37,15 @@ def next_word_probability(sampletext, word):
     for item in words:
         if item == word:
             key = words[index + 1]
-            if key in probabilities:
-                probabilities[key] += 1
-            else:
-                probabilities[key] = 1
+            frequencies[key] = frequencies.get(key, 0) + 1
+
         index += 1
 
-    for key, value in probabilities.items():
-        probabilities[key] = value / float(sum(probabilities.values()))
+    sum_freq = float(sum(frequencies.values()))
+    for key, value in frequencies.items():
+        probabilities[key] = value / sum_freq
 
-    return probabilities
+    return frequencies
 
 
 def later_word_probability(sampletext, probability_dict):
@@ -70,26 +70,34 @@ def LaterWords(sample, word, distance):
 
     # TODO: Given a word, collect the relative probabilities of possible following words
     # from @sample. You may want to import your code from the maximum likelihood exercise.
-    probability = next_word_probability(sampletext=sample, word=word)
+    next_word_prob_dict = next_word_probability(sampletext=sample, word=word)
 
     # TODO: Repeat the above process--for each distance beyond 1, evaluate the words that
     # might come after each word, and combine them weighting by relative probability
     # into an estimate of what might appear next.
     for i in range(1, distance):
-        probability = later_word_probability(sampletext=sample, probability_dict=probability)
+        next_word_prob_dict = later_word_probability(sampletext=sample, probability_dict=next_word_prob_dict)
 
-    print probability
-    return max(probability, key=probability.get)
+    prob = {}
+
+    for word, freq in next_word_prob_dict.items():
+        prob[word] = freq / float(sum(next_word_prob_dict.values()))
+
+    print prob
+    return max(next_word_prob_dict, key=next_word_prob_dict.get)
 
 
 def test_run():
-    print "My guess is that two blanks after 'ahead' will be: " + LaterWords(sample_memo, "ahead", 2) +\
-          ". The best guess is 'come'"
-    print "My guess is that two blanks after 'and' will be: " + LaterWords(sample_memo, "and", 2) + \
-          ". The best guess is 'in'"
-
+    # print "My guess is that two blanks after 'ahead' will be: " + LaterWords(sample_memo, "ahead", 2) +\
+    #        ". The best guess is 'come'"
+    # print "My guess is that two blanks after 'and' will be: " + LaterWords(sample_memo, "and", 2) + \
+    #       ". The best guess is 'in'"
+    #
     print "You guessed '" + LaterWords(sample_memo, "you", 2) + "' after 'you', where we guessed 'go'"
-
+    print "You guessed '" + LaterWords(sample_memo, "need", 2) + "' after 'need', where we guessed 'to'"
+    # print LaterWords(sample_memo, "need", 1)
+    # print LaterWords(sample_memo, "you", 1)
+    # print LaterWords(sample_memo, "to", 1)
 
 if __name__ == '__main__':
     test_run()
